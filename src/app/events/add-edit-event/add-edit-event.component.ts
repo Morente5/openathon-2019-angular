@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
+
+import { Event } from '../../models/event';
+import { EventService } from '../../core/event.service';
 
 @Component({
   selector: 'oevents-add-edit-event',
@@ -6,10 +11,66 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./add-edit-event.component.scss']
 })
 export class AddEditEventComponent implements OnInit {
+  addEditForm: FormGroup;
+  event: Event;
 
-  constructor() { }
+  constructor(
+    private fb: FormBuilder,
+    private eventService: EventService,
+    private router: Router,
+    private route: ActivatedRoute,
+  ) { }
 
   ngOnInit() {
+    const id = this.route.snapshot.paramMap.get('id');
+
+    if (id) {
+      this.eventService.getEvent(id).subscribe((event: Event) => {
+        console.log(event);
+        this.event = event;
+        this.createForm();
+      });
+    } else {
+      this.createForm();
+    }
   }
 
+  createForm() {
+    if (this.event) {
+      this.addEditForm = this.fb.group({
+        title: this.event.title,
+        location: this.event.location,
+        date: this.event.date,
+        description: this.event.description,
+        addedBy: this.event.addedBy,
+        id: this.event.id,
+      });
+    } else {
+      this.addEditForm = this.fb.group({
+        title: '',
+        location: '',
+        date: '',
+        description: '',
+        addedBy: '',
+        id: '',
+      });
+    }
+  }
+
+  onSubmit() {
+    this.event = this.addEditForm.value;
+    if (this.event.id) {
+      this.eventService.updateEvent(this.event).subscribe((event: Event) => {
+        console.log(event);
+        this.addEditForm.reset();
+        this.router.navigate(['/events']);
+      });
+    } else {
+      this.eventService.addEvent(this.event).subscribe((event: Event) => {
+        console.log(event);
+        this.addEditForm.reset();
+        this.router.navigate(['/events']);
+      });
+    }
+  }
 }

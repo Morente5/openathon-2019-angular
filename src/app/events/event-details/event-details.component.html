@@ -1,7 +1,10 @@
 <div class="container">
   <div id="event-card-details">
     <div id="edit-event-btn">
-      <button mat-raised-button color="primary" [routerLink]="['/addEditEvent/', event.id]">
+      <button id="delete-btn" mat-raised-button color="warn" (click)="deleteEvent(event)" >
+        Delete Event
+      </button>
+      <button mat-raised-button color="primary" [routerLink]="['/addEditEvent/', event.id]" >
         Edit Event
       </button>
     </div>
