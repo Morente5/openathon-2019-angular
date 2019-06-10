@@ -60,4 +60,8 @@ export class EventListComponent implements OnInit {
   ngOnInit() {
   }
 
+  onSelectEvent(event: Event) {
+    this.selectedEvent = event;
+  }
+
 }
