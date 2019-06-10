@@ -1,3 +1,4 @@
+import { Event } from './../models/event';
 import { Injectable } from '@angular/core';
 import {
   HttpClient,
@@ -17,12 +18,23 @@ export class EventService {
 
   constructor(private http: HttpClient) { }
 
-  getEvents(): Observable<any> {
+  getEvents(): Observable<Event[]> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
 
-    return this.http.get(`${environment.apiURL}/events`, { headers }).pipe(
+    return this.http.get<Event[]>(`${environment.apiURL}/events`, { headers }).pipe(
+      retry(3),
+      catchError(this.handleError)
+    );
+  }
+
+  getEvent(id: string): Observable<Event> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.get<Event>(`${environment.apiURL}/events/${id}`, { headers }).pipe(
       retry(3),
       catchError(this.handleError)
     );
