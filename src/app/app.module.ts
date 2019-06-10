@@ -10,6 +10,7 @@ import 'hammerjs';
 import { AppComponent } from './app.component';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { ToolbarComponent } from './toolbar/toolbar.component';
+import { EventListComponent } from './event-list/event-list.component';
 
 @NgModule({
   imports: [
@@ -23,6 +24,7 @@ import { ToolbarComponent } from './toolbar/toolbar.component';
     AppComponent,
     LandingPageComponent,
     ToolbarComponent,
+    EventListComponent,
   ],
   providers: [],
   bootstrap: [AppComponent],
