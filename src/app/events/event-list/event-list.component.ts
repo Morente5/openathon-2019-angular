@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Event } from '../models/event';
+import { Event } from '../../models/event';
 
 const EVENTS: Event[] = [
   {
