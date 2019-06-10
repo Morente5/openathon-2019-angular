@@ -7,6 +7,7 @@ import { EventDetailsComponent } from './events/event-details/event-details.comp
 import { AddEditEventComponent } from './events/add-edit-event/add-edit-event.component';
 import { ProfileComponent } from './profile/profile.component';
 import { LoginComponent } from './login/login.component';
+import { SignupComponent } from './login/signup/signup.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 const routes: Routes = [
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'events', component: EventListComponent },
   { path: 'profile', component: ProfileComponent },
   { path: 'login', component: LoginComponent },
+  { path: 'signup', component: SignupComponent },
   { path: 'eventDetails/:id', component: EventDetailsComponent },
   { path: 'addEditEvent/:id', component: AddEditEventComponent },
 
