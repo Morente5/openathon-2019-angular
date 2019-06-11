@@ -22,13 +22,13 @@ export class UserService {
     });
 
     return this.http
-      .post(`${environment.apiURL}users`, user, { headers })
+      .post(`${environment.apiURL}/users`, user, { headers })
       .pipe(
-        retry(3),
-        tap(user => {
-          localStorage.setItem('user', JSON.stringify(user));
+        tap(usr => {
+          localStorage.setItem('user', JSON.stringify(usr));
           this.setUser();
         }),
+        retry(3),
         catchError(this.handleError),
       );
   }
@@ -38,21 +38,22 @@ export class UserService {
       'Content-Type': 'application/json'
     });
 
-    return this.http.get<User>(`${environment.apiURL}users`, { headers, params: { email: user.email } }).pipe(
+    return this.http.get<User>(`${environment.apiURL}/users`, { headers, params: { email: user.email } }).pipe(
       retry(3),
       pluck('0'),
-      filter((usr: User) => !!usr.email),
-      tap(usr => {
-        localStorage.setItem('user', JSON.stringify(usr));
-        this.setUser();
-      }),
-      map(usr => {
-        if (usr.password === user.password) {
-          return usr;
+      tap((usr: User) => {
+        if (!usr || !usr.email) {
+          throw new Error('This is not a valid email');
         }
-        throw new Error('Password not valid.');
+        if (usr.password !== user.password) {
+          throw new Error('Password not valid.');
+        }
+        if (usr.password === user.password) {
+          localStorage.setItem('user', JSON.stringify(usr));
+          this.setUser();
+        }
       }),
-      catchError(this.handleError),
+      catchError(error => this.handleError(error)),
     );
   }
 
@@ -73,15 +74,16 @@ export class UserService {
   // Error handling
 
   private handleError(error: HttpErrorResponse) {
+    this.logout();
+    if (error instanceof Error) {
+      return throwError(error.message);
+    }
     if (error.error instanceof ErrorEvent) {
       // A client-side or network error occurred. Handle it accordingly.
-      console.error('An error occurred:', error.error.message);
-    } else {
-      // The backend returned an unsuccessful response code.
-      // The response body may contain clues as to what went wrong,
-      console.error(`Backend returned code ${error.status}, body was: ${error.error}`);
+      return throwError(`An error occurred: ${error.error.message}`);
     }
-    // return an observable with a user-facing error message
-    return throwError('Something bad happened; please try again later.');
+    // The backend returned an unsuccessful response code.
+    // The response body may contain clues as to what went wrong,
+    return throwError(`Backend returned code ${error.status}, body was: ${error.error}`);
   }
 }
