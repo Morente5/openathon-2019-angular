@@ -8,9 +8,15 @@
   >
     <mat-form-field>
       <input matInput placeholder="Title" type="text" formControlName="title" />
+      <mat-error
+        *ngIf="addEditForm.get('title').dirty && addEditForm.get('title').hasError('required')"
+      >{{validationMessages.title['required']}}</mat-error>
     </mat-form-field>
     <mat-form-field>
       <input matInput placeholder="Date" type="date" formControlName="date" />
+      <mat-error
+        *ngIf="addEditForm.get('date').dirty && addEditForm.get('date').hasError('required')"
+      >{{validationMessages.date['required']}}</mat-error>
     </mat-form-field>
     <mat-form-field>
       <input
@@ -19,6 +25,12 @@
         type="text"
         formControlName="location"
       />
+      <ng-container *ngFor="let errorName of errors('location')">
+        <mat-error
+          *ngIf="addEditForm.get('location').dirty && addEditForm.get('location').hasError(errorName)"
+        >{{validationMessages.location[errorName]}}</mat-error>
+      </ng-container>
+
     </mat-form-field>
 
     <mat-form-field>
@@ -29,10 +41,19 @@
         type="text"
         formControlName="description"
       ></textarea>
+      <ng-container
+        *ngFor="let errorName of errors('description')"
+      >
+        <mat-error
+          *ngIf="addEditForm.get('description').dirty && addEditForm.get('description').hasError(errorName)"
+        >{{validationMessages.description[errorName]}}</mat-error>
+      </ng-container>
     </mat-form-field>
 
     <div id="save-btn">
-      <button mat-raised-button color="primary" type="submit">
+      <button mat-raised-button color="primary" type="submit"
+        [disabled]="addEditForm.invalid"
+      >
         Save
       </button>
     </div>

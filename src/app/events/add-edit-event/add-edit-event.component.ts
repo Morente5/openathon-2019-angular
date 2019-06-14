@@ -1,9 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
 import { Event } from '../../models/event';
 import { EventService } from '../../core/event.service';
+
 
 @Component({
   selector: 'oevents-add-edit-event',
@@ -13,6 +14,25 @@ import { EventService } from '../../core/event.service';
 export class AddEditEventComponent implements OnInit {
   addEditForm: FormGroup;
   event: Event;
+
+  validationMessages = {
+    title: {
+      required: 'Title is required',
+    },
+    date: {
+      required: 'Date is required',
+    },
+    location: {
+      required: 'Location is required',
+      minlength: 'Location is too short',
+      maxlength: 'Location is too long',
+    },
+    description: {
+      required: 'Description is required',
+      minlength: 'Description is too short',
+      maxlength: 'Description is too long',
+    },
+  };
 
   constructor(
     private fb: FormBuilder,
@@ -38,23 +58,28 @@ export class AddEditEventComponent implements OnInit {
   createForm() {
     if (this.event) {
       this.addEditForm = this.fb.group({
-        title: this.event.title,
-        location: this.event.location,
-        date: this.event.date,
-        description: this.event.description,
-        addedBy: this.event.addedBy,
-        id: this.event.id,
+        title: [this.event.title, Validators.required],
+        location: [this.event.location, [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
+        date: [this.event.date, Validators.required],
+        description: [this.event.description, [Validators.required, Validators.minLength(10), Validators.maxLength(400)]],
+        addedBy: [this.event.addedBy],
+        id: [this.event.id],
       });
     } else {
       this.addEditForm = this.fb.group({
-        title: '',
-        location: '',
-        date: '',
-        description: '',
-        addedBy: '',
-        id: '',
+        title: ['', Validators.required],
+        location: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
+        date: ['', Validators.required],
+        description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(400)]],
+        addedBy: [''],
+        id: [''],
       });
     }
+  }
+
+  errors(controlName): string[] {
+    const control = this.addEditForm.get(controlName);
+    return control.errors ? Object.keys(control.errors) : [];
   }
 
   onSubmit() {
