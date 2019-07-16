@@ -1,14 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { Event } from '../../models/event';
-import { EventService } from '../../core/event.service';
+import { Event } from '../model/event';
+import { EventService } from '../services/event.service';
 
+import { fadeInTop } from 'src/app/shared/animations/animations';
 
 @Component({
   selector: 'oevents-event-details',
   templateUrl: './event-details.component.html',
-  styleUrls: ['./event-details.component.scss']
+  styleUrls: ['./event-details.component.scss'],
+  animations: [fadeInTop],
 })
 export class EventDetailsComponent implements OnInit {
 

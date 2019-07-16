@@ -8,6 +8,9 @@
       "schematics": {
         "@schematics/angular:component": {
           "style": "scss"
+        },
+        "@ngrx/schematics:component": {
+          "style": "scss"
         }
       },
       "root": "",
@@ -27,6 +30,12 @@
               "src/favicon.ico",
               "src/assets"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules",
+                "src/app"
+              ]
+            },
             "styles": [
               "src/styles.scss"
             ],
@@ -87,6 +96,12 @@
               "src/favicon.ico",
               "src/assets"
             ],
+            "stylePreprocessorOptions": {
+              "includePaths": [
+                "node_modules",
+                "src/app"
+              ]
+            },
             "styles": [
               "src/styles.scss"
             ],
@@ -119,6 +134,10 @@
           }
         }
       }
-    }},
-  "defaultProject": "open-events-front"
+    }
+  },
+  "defaultProject": "open-events-front",
+  "cli": {
+    "defaultCollection": "@ngrx/schematics"
+  }
 }

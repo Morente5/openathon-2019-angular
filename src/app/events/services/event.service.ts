@@ -1,4 +1,3 @@
-import { Event } from './../models/event';
 import { Injectable } from '@angular/core';
 import {
   HttpClient,
@@ -9,44 +8,37 @@ import {
 import { Observable, throwError } from 'rxjs';
 import { catchError, retry } from 'rxjs/operators';
 
-import { environment } from '../../environments/environment';
+import { Event } from '../model/event';
+import { environment } from '../../../environments/environment';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class EventService {
+
+  private readonly headers = new HttpHeaders({
+    'Content-Type': 'application/json'
+  });
 
   constructor(private http: HttpClient) { }
 
   getEvents(): Observable<Event[]> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
-
-    return this.http.get<Event[]>(`${environment.apiURL}/events`, { headers }).pipe(
+    return this.http.get<Event[]>(`${environment.apiURL}/events`, { headers: this.headers }).pipe(
       retry(3),
       catchError(this.handleError)
     );
   }
 
   getEvent(id: string): Observable<Event> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
 
-    return this.http.get<Event>(`${environment.apiURL}/events/${id}`, { headers }).pipe(
+    return this.http.get<Event>(`${environment.apiURL}/events/${id}`, { headers: this.headers }).pipe(
       retry(3),
       catchError(this.handleError)
     );
   }
 
   addEvent(event: Event): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
 
     return this.http
-      .post(`${environment.apiURL}/events`, event, { headers })
+      .post(`${environment.apiURL}/events`, event, { headers: this.headers })
       .pipe(
         retry(3),
         catchError(this.handleError)
@@ -54,12 +46,9 @@ export class EventService {
   }
 
   updateEvent(event: Event): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
 
     return this.http
-      .put(`${environment.apiURL}/events/${event.id}`, event, { headers })
+      .put(`${environment.apiURL}/events/${event.id}`, event, { headers: this.headers })
       .pipe(
         retry(3),
         catchError(this.handleError)
@@ -67,11 +56,9 @@ export class EventService {
   }
 
   deleteEvent(id: string): Observable<any> {
-    const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
-    });
+
     return this.http
-      .delete(`${environment.apiURL}/events/${id}`, { headers })
+      .delete(`${environment.apiURL}/events/${id}`, { headers: this.headers })
       .pipe(
         retry(3),
         catchError(this.handleError)

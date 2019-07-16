@@ -1,0 +1,14 @@
+@import 'src/app/shared/styles/variables';
+a {
+  cursor: pointer;
+  color: black;
+  text-decoration: none;
+
+  &:hover {
+    color: $acn-green;
+  }
+}
+
+.activeLink {
+  color: $acn-green;
+}

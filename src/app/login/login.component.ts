@@ -1,41 +1,33 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { OnDestroy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { fadeInTop } from '../shared/animations/animations';
 
-import { UserService } from '../core/user.service';
-import { User } from '../models/user';
+import * as AuthActions from '../store/actions/auth.actions';
+import { Store } from '@ngrx/store';
+import { AppState } from '../store/app.state';
 
 @Component({
   selector: 'oevents-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.scss']
+  styleUrls: ['./login.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [fadeInTop],
 })
-export class LoginComponent implements OnInit {
-  loginForm: FormGroup;
-  msgs: string;
+export class LoginComponent {
+
+  public readonly loginForm = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required]],
+  });
 
   constructor(
-    private fb: FormBuilder,
-    private router: Router,
-    private userService: UserService
+    private readonly fb: FormBuilder,
+    private readonly store: Store<AppState>
   ) { }
 
-  ngOnInit() {
-    this.createForm();
-  }
-
-  createForm() {
-    this.loginForm = this.fb.group({
-      email: '',
-      password: ''
-    });
-  }
-
   onSubmit() {
-    this.userService.login(this.loginForm.value).subscribe((user: User) => {
-      console.log(user);
-      this.router.navigate(['/events']);
-    }, err => this.msgs = err);
+    this.store.dispatch(AuthActions.LOG_IN({ credentials: this.loginForm.value }));
   }
 
 }

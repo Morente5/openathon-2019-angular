@@ -1,42 +1,32 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Component, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { FormBuilder, Validators } from '@angular/forms';
+import { fadeInTop } from '../../shared/animations/animations';
 
-import { User } from '../../models/user';
-import { UserService } from '../../core/user.service';
+import * as AuthActions from '../../store/actions/auth.actions';
+import { Store } from '@ngrx/store';
+import { AppState } from 'src/app/store/app.state';
 
 @Component({
   selector: 'oevents-signup',
   templateUrl: './signup.component.html',
-  styleUrls: ['./signup.component.scss']
+  styleUrls: ['./signup.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [fadeInTop],
 })
-export class SignupComponent implements OnInit {
-  signupForm: FormGroup;
-  user: User;
+export class SignupComponent {
+
+  public readonly signupForm = this.fb.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required]],
+  });
 
   constructor(
     private fb: FormBuilder,
-    private router: Router,
-    private userService: UserService,
+    private readonly store: Store<AppState>
   ) { }
 
-  ngOnInit() {
-    this.createForm();
-  }
-
-  createForm() {
-    this.signupForm = this.fb.group({
-      email: '',
-      password: '',
-    });
-  }
-
   onSubmit() {
-    this.user = this.signupForm.value;
-
-    this.userService.signup(this.user).subscribe((event: Event) => {
-      this.router.navigate(['/events']);
-    });
+    this.store.dispatch(AuthActions.SIGN_UP({ credentials: this.signupForm.value }));
   }
 
 }

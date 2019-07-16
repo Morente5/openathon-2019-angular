@@ -1,0 +1,11 @@
+<mat-toolbar color="primary">
+  <a mat-button routerLink="/home" routerLinkActive="activeLink">Home</a>
+  <a mat-button routerLink="/events" routerLinkActive="activeLink">Events</a>
+  <a mat-button routerLink="/profile" routerLinkActive="activeLink">Profile</a>
+  <ng-container class="course-detail" *ngIf="user$ | async as user; else loginButton">
+    <a mat-button (click)="logout()">{{user.email}} - Logout</a>
+  </ng-container>
+  <ng-template #loginButton>
+    <a mat-button routerLink="/login" routerLinkActive="activeLink">Login</a>
+  </ng-template>
+</mat-toolbar>

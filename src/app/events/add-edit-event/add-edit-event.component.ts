@@ -1,19 +1,28 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
-import { Event } from '../../models/event';
-import { EventService } from '../../core/event.service';
+import { Event } from '../model/event';
+import { EventService } from '../services/event.service';
 
+import { fadeInTop } from '../../shared/animations/animations';
 
 @Component({
   selector: 'oevents-add-edit-event',
   templateUrl: './add-edit-event.component.html',
-  styleUrls: ['./add-edit-event.component.scss']
+  styleUrls: ['./add-edit-event.component.scss'],
+  animations: [fadeInTop],
 })
 export class AddEditEventComponent implements OnInit {
-  addEditForm: FormGroup;
-  event: Event;
+
+  addEditForm: FormGroup = this.fb.group({
+    title: ['', Validators.required],
+    location: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
+    date: ['', Validators.required],
+    description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(400)]],
+    addedBy: [''],
+    id: [''],
+  });
 
   validationMessages = {
     title: {
@@ -46,35 +55,13 @@ export class AddEditEventComponent implements OnInit {
 
     if (id) {
       this.eventService.getEvent(id).subscribe((event: Event) => {
-        console.log(event);
-        this.event = event;
-        this.createForm();
+        this.fillForm(event);
       });
-    } else {
-      this.createForm();
     }
   }
 
-  createForm() {
-    if (this.event) {
-      this.addEditForm = this.fb.group({
-        title: [this.event.title, Validators.required],
-        location: [this.event.location, [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
-        date: [this.event.date, Validators.required],
-        description: [this.event.description, [Validators.required, Validators.minLength(10), Validators.maxLength(400)]],
-        addedBy: [this.event.addedBy],
-        id: [this.event.id],
-      });
-    } else {
-      this.addEditForm = this.fb.group({
-        title: ['', Validators.required],
-        location: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
-        date: ['', Validators.required],
-        description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(400)]],
-        addedBy: [''],
-        id: [''],
-      });
-    }
+  fillForm(event: Event) {
+    this.addEditForm.patchValue(event);
   }
 
   errors(controlName): string[] {
@@ -83,19 +70,16 @@ export class AddEditEventComponent implements OnInit {
   }
 
   onSubmit() {
-    this.event = this.addEditForm.value;
-    if (this.event.id) {
-      this.eventService.updateEvent(this.event).subscribe((event: Event) => {
-        console.log(event);
-        this.addEditForm.reset();
-        this.router.navigate(['/events']);
-      });
-    } else {
-      this.eventService.addEvent(this.event).subscribe((event: Event) => {
-        console.log(event);
-        this.addEditForm.reset();
-        this.router.navigate(['/events']);
-      });
-    }
+    const currentEvent = this.addEditForm.value;
+
+    const action = currentEvent.id ?
+      this.eventService.updateEvent(currentEvent) :
+      this.eventService.addEvent(currentEvent);
+
+    action.subscribe((event: Event) => {
+      console.log(event);
+      this.addEditForm.reset();
+      this.router.navigate(['/events']);
+    });
   }
 }

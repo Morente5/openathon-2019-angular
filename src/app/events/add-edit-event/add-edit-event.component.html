@@ -1,5 +1,5 @@
 <div class="container">
-  <h2>Add Event</h2>
+  <h1 @fadeInTop>Add Event</h1>
   <form
     novalidate
     [formGroup]="addEditForm"
@@ -27,7 +27,7 @@
       />
       <ng-container *ngFor="let errorName of errors('location')">
         <mat-error
-          *ngIf="addEditForm.get('location').dirty && addEditForm.get('location').hasError(errorName)"
+          *ngIf="addEditForm.get('location').dirty"
         >{{validationMessages.location[errorName]}}</mat-error>
       </ng-container>
 
@@ -45,7 +45,7 @@
         *ngFor="let errorName of errors('description')"
       >
         <mat-error
-          *ngIf="addEditForm.get('description').dirty && addEditForm.get('description').hasError(errorName)"
+          *ngIf="addEditForm.get('description').dirty"
         >{{validationMessages.description[errorName]}}</mat-error>
       </ng-container>
     </mat-form-field>
