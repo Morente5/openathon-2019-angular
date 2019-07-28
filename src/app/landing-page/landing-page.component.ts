@@ -1,5 +1,8 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 
+/**
+ * The home page component
+ */
 @Component({
   selector: 'oevents-landing-page',
   templateUrl: './landing-page.component.html',

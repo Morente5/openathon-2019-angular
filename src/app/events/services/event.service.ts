@@ -15,10 +15,16 @@ import { EventsStoreFacadeService } from '../store/services/events-store-facade.
 @Injectable()
 export class EventService {
 
+  /**
+   * The headers for the requests
+   */
   private readonly headers = new HttpHeaders({
     'Content-Type': 'application/json'
   });
 
+  /**
+   * The base URL the requests
+   */
   apiURL = environment.apiURL;
 
   constructor(
@@ -27,18 +33,33 @@ export class EventService {
     private imagesService: ImagesService,
   ) { }
 
+  /**
+   * Gets the list of events
+   */
   getEvents(): Observable<Event[]> {
     return this.http.get<Event[]>(`${this.apiURL}/events`, { headers: this.headers }).pipe(
       retry(3),
     );
   }
 
+  /**
+   * Gets an event provided its id
+   *
+   * @param id The id of the event
+   */
   getEvent(id: string): Observable<Event> {
     return this.http.get<Event>(`${this.apiURL}/events/${id}`, { headers: this.headers }).pipe(
       retry(3),
     );
   }
 
+  /**
+   * Adds an event
+   * it gets a random image for the event
+   * and sets the current user email as `addedBy` property
+   *
+   * @param event The Event to add
+   */
   addEvent(event: Event): Observable<Event> {
     const addedBy$ = this.eventsFacade.user$.pipe(
       pluck('email'),
@@ -54,12 +75,22 @@ export class EventService {
     );
   }
 
+  /**
+   * Updates an event
+   *
+   * @param event The Event to update
+   */
   updateEvent(event: Event): Observable<Event> {
     return this.http.put<Event>(`${this.apiURL}/events/${event.id}`, event, { headers: this.headers }).pipe(
       retry(3),
     );
   }
 
+  /**
+   * Deletes an event
+   *
+   * @param id The id of the event to delete
+   */
   deleteEvent(id: string): Observable<Event> {
     return this.http.delete<Event>(`${this.apiURL}/events/${id}`, { headers: this.headers }).pipe(
       retry(3),

@@ -16,13 +16,22 @@ import * as AuthActions from '../../store/actions/auth.actions';
 @Injectable()
 export class AuthService {
 
+  /**
+   * Observable of the authenticated user
+   */
   public user$ = this.authFacade.user$;
 
-  apiURL = environment.apiURL;
-
+  /**
+   * The headers for the requests
+   */
   private readonly headers = new HttpHeaders({
-    'Content-Type': 'application/json',
+    'Content-Type': 'application/json'
   });
+
+  /**
+   * The base URL the requests
+   */
+  apiURL = environment.apiURL;
 
   constructor(
     private readonly http: HttpClient,
@@ -34,10 +43,20 @@ export class AuthService {
     }
   }
 
+  /**
+   * Logins an user
+   *
+   * @param user The user log in
+   */
   login(user: Credentials): Observable<User> {
     return this.getUser(user);
   }
 
+  /**
+   * Checks an user before registration
+   *
+   * @param user The user to check
+   */
   signup(user: Credentials): Observable<User> {
     return this.getUser(user).pipe(
       switchMap(userWithSameEmail => {
@@ -49,7 +68,11 @@ export class AuthService {
     );
   }
 
-
+  /**
+   * Gets an user
+   *
+   * @param user The user credentials for the user to get
+   */
   getUser(user: Credentials): Observable<User> {
     const headers = this.headers;
     return this.http.get<User>(`${this.apiURL}/users`, { headers, params: { email: user.email } }).pipe(
@@ -58,6 +81,11 @@ export class AuthService {
     );
   }
 
+  /**
+   * Register an user
+   *
+   * @param user The user to add
+   */
   postUser(user: Credentials): Observable<User> {
     const headers = this.headers;
     return this.http.post<User>(`${this.apiURL}/users`, user, { headers }).pipe(
@@ -65,10 +93,19 @@ export class AuthService {
     );
   }
 
+  /**
+   * Dispatches LOG_OUT
+   */
   logout() {
     this.authFacade.dispatch(AuthActions.LOG_OUT());
   }
 
+  /**
+   * Gets the user from Local Storage
+   * returns null if there is none or it is invalid
+   *
+   * @return a valid user or null
+   */
   getUserFromLS(): User {
     const user = localStorage.getItem('user');
     if (user) {

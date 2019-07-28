@@ -5,13 +5,14 @@
     "ng": "ng",
     "start": "ng serve",
     "build": "ng build",
+    "build:stats": "ng build --prod --stats-json",
     "test": "ng test",
     "test:coverage": "ng test --code-coverage --watch=false --browsers=ChromeHeadless",
     "lint": "ng lint",
     "e2e": "ng e2e",
     "lint:fix": "ng lint --fix",
     "sonar": "npm run test:coverage && sonar-scanner",
-    "compodoc": "npx compodoc -p tsconfig.app.json"
+    "bundle-analyzer": "npm run build:stats && npx webpack-bundle-analyzer dist/open-events-front/stats.json"
   },
   "private": true,
   "dependencies": {
@@ -41,7 +42,6 @@
     "@angular/cli": "~8.1.1",
     "@angular/compiler-cli": "~8.1.1",
     "@angular/language-service": "~8.1.1",
-    "@compodoc/compodoc": "^1.1.10",
     "@ngrx/schematics": "^8.1.0",
     "@types/jasmine": "~3.3.8",
     "@types/jasminewd2": "~2.0.3",
@@ -58,6 +58,7 @@
     "sonar-scanner": "^3.1.0",
     "ts-node": "~7.0.0",
     "tslint": "~5.15.0",
-    "typescript": "~3.4.3"
+    "typescript": "~3.4.3",
+    "webpack-bundle-analyzer": "^3.3.2"
   }
 }

@@ -9,7 +9,9 @@ import { Event } from '../model/event';
 import { fadeInBottom } from '../../shared/animations/animations';
 import { AuthStoreFacadeService } from 'src/app/store/services/auth-store-facade.service';
 
-
+/**
+ * Shows the event details
+ */
 @Component({
   selector: 'oevents-event-details',
   templateUrl: './event-details.component.html',
@@ -19,7 +21,14 @@ import { AuthStoreFacadeService } from 'src/app/store/services/auth-store-facade
 })
 export class EventDetailsComponent implements OnInit {
 
+  /**
+   * Observable of the authenticated User
+   */
   public auth$ = this.authFacade.user$;
+
+  /**
+   * Observable of the selected event
+   */
   public event$;
 
   constructor(
@@ -28,12 +37,24 @@ export class EventDetailsComponent implements OnInit {
     private authFacade: AuthStoreFacadeService,
   ) { }
 
+  /**
+   * On Init lifecycle hook
+   *
+   * Gets the id of the event and searches for it
+   */
   ngOnInit() {
     const selectedEventId = this.route.snapshot.paramMap.get('id');
     this.event$ = this.eventsFacade.selectEvent$(selectedEventId);
     this.eventsFacade.dispatch(EventsActions.GET_EVENT_DETAIL({ selectedEventId }));
   }
 
+  /**
+   * Deletes an event
+   *
+   * Dispatches DELETE_EVENT
+   *
+   * @param event The event to delete
+   */
   deleteEvent(event: Event) {
     this.eventsFacade.dispatch(EventsActions.DELETE_EVENT({ selectedEventId: event.id }));
   }

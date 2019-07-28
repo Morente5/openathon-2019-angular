@@ -4,6 +4,9 @@ import { AuthStoreFacadeService } from '../store/services/auth-store-facade.serv
 
 import { fadeInBottom } from '../shared/animations/animations';
 
+/**
+ * Component to show the user info
+ */
 @Component({
   selector: 'oevents-profile',
   templateUrl: './profile.component.html',
@@ -12,6 +15,10 @@ import { fadeInBottom } from '../shared/animations/animations';
   animations: [fadeInBottom],
 })
 export class ProfileComponent {
+
+  /**
+   * Observable of the authenticated user
+   */
   public user$ = this.authFacade.user$;
 
   constructor(

@@ -5,6 +5,9 @@ import { AuthService } from '../services/auth.service';
 import { Observable } from 'rxjs';
 import { map, tap, take } from 'rxjs/operators';
 
+/**
+ * AuthGuard checks for an authenticated user before resolving a route
+ */
 @Injectable()
 export class AuthGuard implements CanActivate {
 
@@ -13,6 +16,10 @@ export class AuthGuard implements CanActivate {
     private authService: AuthService
   ) { }
 
+  /**
+   * Can activate if user is logged in.
+   * Else, navigates to login page
+   */
   canActivate(): Observable<boolean> {
     return this.authService.user$.pipe(
       map(user => !!user),

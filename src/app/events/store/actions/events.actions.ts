@@ -4,6 +4,7 @@ import { createAction, props } from '@ngrx/store';
 export const GET_EVENTS = createAction(
   '[Events] Get Events',
 );
+
 export const DONT_GET_EVENTS = createAction(
   '[Events] Dont Get Events',
 );

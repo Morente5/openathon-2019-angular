@@ -7,6 +7,9 @@ import { AddEditEventComponent } from './add-edit-event/add-edit-event.component
 
 import { AuthGuard } from '../core/guards/auth.guard';
 
+/**
+ * Routes for EventsModule
+ */
 const routes: Routes = [
   { path: '', component: EventListComponent },
   { path: 'add', component: AddEditEventComponent, canActivate: [AuthGuard] },
@@ -14,6 +17,9 @@ const routes: Routes = [
   { path: ':id/edit', component: AddEditEventComponent, canActivate: [AuthGuard] },
 ];
 
+/**
+ * Routing Module for EventsModule
+ */
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]

@@ -6,6 +6,9 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { LandingPageComponent } from './landing-page/landing-page.component';
 import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
+/**
+ * Routes for AppRoutingModule
+ */
 const routes: Routes = [
   { path: 'home', component: LandingPageComponent },
   { path: 'events', loadChildren: () => import('./events/events.module').then(mod => mod.EventsModule) },

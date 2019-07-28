@@ -12,6 +12,15 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 @Injectable()
 export class AuthEffects {
 
+  /**
+   * Login effect
+   *
+   * Dispatches LOG_IN_SUCCESS when the credentials are valid
+   *
+   * Dispatches LOG_IN_FAILURE when the credentials have no email
+   * when the password is not correct or when login throws an error
+   * with an error message
+   */
   login$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.LOG_IN),
@@ -29,6 +38,15 @@ export class AuthEffects {
       )),
     )
   );
+
+  /**
+   * Signup Effect
+   *
+   * Dspatches SIGN_UP_SUCCESS when the credentials are valid
+   *
+   * Dispatches SIGN_UP_FAILURE when user is already registered or
+   * signup throws an error whith an error message
+   */
   signup$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.SIGN_UP),
@@ -44,6 +62,11 @@ export class AuthEffects {
     )
   );
 
+  /**
+   * Signup Success Effect
+   *
+   * Dispatches LOG_IN_SUCCESS when the user is successfully registered
+   */
   signupSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.SIGN_UP_SUCCESS),
@@ -53,6 +76,12 @@ export class AuthEffects {
     )
   );
 
+  /**
+   * Login success Effect
+   *
+   * Sets the logged in user in Local Storage and
+   * dispatches LOG_IN_SUCCESS
+   */
   loginSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.LOG_IN_SUCCESS),
@@ -63,6 +92,12 @@ export class AuthEffects {
     ), { dispatch: false }
   );
 
+  /**
+   * Logout Effect
+   *
+   * Deletes the user from Local Storage and
+   * navigates home
+   */
   logout$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.LOG_OUT),
@@ -73,6 +108,11 @@ export class AuthEffects {
     ), { dispatch: false }
   );
 
+  /**
+   * Error message Effect
+   *
+   * Opens a Snack Bar with the error message
+   */
   errorMessage$ = createEffect(() =>
     this.actions$.pipe(
       ofType(AuthActions.LOG_IN_FAILURE, AuthActions.SIGN_UP_FAILURE),

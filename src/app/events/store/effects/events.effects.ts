@@ -16,6 +16,15 @@ import { ConfirmationDialogComponent } from 'src/app/shared/components/confirmat
 @Injectable()
 export class EventsEffects {
 
+  /**
+   * Load Events effect
+   *
+   * Dispatches GET_EVENTS_SUCCESS when getEvents fetches events
+   *
+   * Dispatches GET_EVENTS_FAILURE when getEvents fetches invalid
+   * events or getEvents throws an error
+   * with an error message
+   */
   loadEvents$ = createEffect(() =>
     this.actions$.pipe(
       ofType(EventsActions.GET_EVENTS),
@@ -31,6 +40,11 @@ export class EventsEffects {
     ),
   );
 
+  /**
+   * Get Event Details effect
+   *
+   * Dispatches GET_EVENTS when there are no events in the store
+   */
   getEventDetail$ = createEffect(() =>
     this.actions$.pipe(
       ofType(EventsActions.GET_EVENT_DETAIL),
@@ -45,6 +59,14 @@ export class EventsEffects {
     ),
   );
 
+  /**
+   * Create Event effect
+   *
+   * Dispatches CREATE_EVENT_SUCCESS when addEvent returns succesfully an event
+   *
+   * Dispatches CREATE_EVENT_FAILURE when addEvent throws an error
+   * with an error message
+   */
   createEvent$ = createEffect(() =>
     this.actions$.pipe(
       ofType(EventsActions.CREATE_EVENT),
@@ -54,6 +76,15 @@ export class EventsEffects {
       )),
     ),
   );
+
+  /**
+   * Edit Event effect
+   *
+   * Dispatches EDIT_EVENT_SUCCESS when updateEvent returns succesfully an event
+   *
+   * Dispatches EDIT_EVENT_FAILURE when updateEvent throws an error
+   * with an error message
+   */
   editEvent$ = createEffect(() =>
     this.actions$.pipe(
       ofType(EventsActions.EDIT_EVENT),
@@ -64,6 +95,14 @@ export class EventsEffects {
     ),
   );
 
+  /**
+   * Delete Event effect
+   *
+   * Opens a confirmation dialog
+   * When the user confirms, validates the operation on the service and dispatches DELETE_EVENT_SUCCESS
+   * Dispatches DELETE_EVENT_FAILURE when the operation fails
+   * Dispatches DELETE_EVENT_CANCEL when the user closes the confirmation dialog
+   */
   deleteEvent$ = createEffect(() =>
     this.actions$.pipe(
       ofType(EventsActions.DELETE_EVENT),
@@ -88,6 +127,11 @@ export class EventsEffects {
     ),
   );
 
+  /**
+   * Delete Event Effect
+   *
+   * navigates to the event list
+   */
   deleteEventSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(EventsActions.DELETE_EVENT_SUCCESS),
@@ -95,6 +139,12 @@ export class EventsEffects {
     ), { dispatch: false },
   );
 
+  /**
+   * Add/Edit Event Effect
+   *
+   * Dispatches GET_EVENTS
+   * navigates to the event details
+   */
   addEditEventSuccess$ = createEffect(() =>
     this.actions$.pipe(
       ofType(EventsActions.CREATE_EVENT_SUCCESS, EventsActions.EDIT_EVENT_SUCCESS),
@@ -103,6 +153,11 @@ export class EventsEffects {
     ),
   );
 
+  /**
+   * Error message Effect
+   *
+   * Opens a Snack Bar with the error message
+   */
   errorMessage$ = createEffect(() =>
     this.actions$.pipe(
       ofType(

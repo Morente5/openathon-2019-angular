@@ -7,6 +7,9 @@ const routes: Routes = [
   { path: '', component: ProfileComponent },
 ];
 
+/**
+ * Routing Module for Profile
+ */
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule],

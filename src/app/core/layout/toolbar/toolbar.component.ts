@@ -1,10 +1,12 @@
 import { Component, ChangeDetectionStrategy } from '@angular/core';
-import { Router } from '@angular/router';
 
 import { AuthService } from '../../services/auth.service';
 
 import { map } from 'rxjs/operators';
 
+/**
+ * The toolbar for the app
+ */
 @Component({
   selector: 'oevents-toolbar',
   templateUrl: './toolbar.component.html',
@@ -13,17 +15,26 @@ import { map } from 'rxjs/operators';
 })
 export class ToolbarComponent {
 
+  /**
+   * Observable of the authenticated user
+   */
   public user$;
+
+  /**
+   * Observable of a boolean indicating user is authenticated
+   */
   public isAuthenticated$;
 
   constructor(
-    private router: Router,
     private readonly authService: AuthService,
   ) {
     this.user$ = this.authService.user$;
     this.isAuthenticated$ = this.user$.pipe(map(user => !!user));
   }
 
+  /**
+   * Logs out the user
+   */
   logout() {
     this.authService.logout();
   }
