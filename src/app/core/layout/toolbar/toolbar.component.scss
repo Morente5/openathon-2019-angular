@@ -1,14 +1,23 @@
-@import 'src/app/shared/styles/variables';
-a {
-  cursor: pointer;
-  color: black;
-  text-decoration: none;
+@import 'src/app/shared/styles/colors';
+@import '~@angular/material/theming';
 
-  &:hover {
-    color: $acn-green;
-  }
+:host:after {
+  content: '';
+  display: block;
+  height: 2px;
+  width: 100%;
+  background-image: linear-gradient(to left, mat-color($acn-green, 400), mat-color($acn-green, 800));
 }
 
-.activeLink {
-  color: $acn-green;
+.toolbar {
+  background-color: white;
+  .login {
+    margin-left: auto;
+  }
+
+}
+
+a {
+  cursor: pointer;
+  text-decoration: none;
 }

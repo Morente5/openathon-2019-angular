@@ -11,8 +11,13 @@ import { MatCardModule } from '@angular/material/card';
 import { MatTableModule } from '@angular/material/table';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { MatIconModule } from '@angular/material/icon';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatSnackBarModule, MAT_SNACK_BAR_DEFAULT_OPTIONS } from '@angular/material/snack-bar';
+import { MatDialogModule } from '@angular/material/dialog';
 import 'hammerjs';
+
+import { ConfirmationDialogComponent } from './components/confirmation-dialog/confirmation-dialog.component';
 
 @NgModule({
   imports: [
@@ -27,9 +32,20 @@ import 'hammerjs';
     MatTableModule,
     MatFormFieldModule,
     MatInputModule,
+    MatIconModule,
     MatSnackBarModule,
+    MatSlideToggleModule,
+    MatDialogModule,
   ],
-  declarations: [],
+  declarations: [
+    ConfirmationDialogComponent
+  ],
+  entryComponents: [
+    ConfirmationDialogComponent,
+  ],
+  providers: [
+    { provide: MAT_SNACK_BAR_DEFAULT_OPTIONS, useValue: { duration: 2500, horizontalPosition: 'center' } },
+  ],
   exports: [
     CommonModule,
     RouterModule,
@@ -42,8 +58,10 @@ import 'hammerjs';
     MatTableModule,
     MatFormFieldModule,
     MatInputModule,
+    MatIconModule,
     MatSnackBarModule,
+    MatSlideToggleModule,
+    MatDialogModule,
   ],
-  entryComponents: [],
 })
 export class SharedModule { }

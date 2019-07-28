@@ -10,3 +10,13 @@ export const fadeInTop = trigger('fadeInTop', [
     animate('1s')
   ]),
 ]);
+
+export const fadeInBottom = trigger('fadeInBottom', [
+  transition(':enter', [
+    style({
+      transform: 'translateY(3rem)',
+      opacity: 0,
+    }),
+    animate('.5s ease-in')
+  ]),
+]);

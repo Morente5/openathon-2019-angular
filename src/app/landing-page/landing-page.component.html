@@ -1,14 +1,28 @@
-<div class="container">
+<div class="grid-container">
+  <div class="logo">
+    <h1>
+      <span class="hero-primary">IV Openathon </span>
+      <span>Custom </span>
+      <span class="stroke">Software</span>
+      <span> Engineering</span>
+    </h1>
+    <img src="assets/images/Accenture-Hero-Image.png" alt="Logo Accenture Custom Software Engineering">
+  </div>
+
   <div class="title">
-    <h1>Open Events App</h1>
+    <h1><span class="hero-primary">Open Events</span></h1>
   </div>
-  <div class="subtitle">
-    <h2>All our events</h2>
-  </div>
+
   <div class="message">
     <p>
       A new and fresh application to host all our tech events crafted from
       Accenture Openathons
     </p>
+  </div>
+
+  <div class="subtitle">
+    <button mat-raised-button class="landing-cta-button btn-hero-primary" color="primary" [routerLink]="['/events']">
+      See all our events
+    </button>
   </div>
 </div>

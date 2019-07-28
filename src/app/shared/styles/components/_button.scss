@@ -1,0 +1,16 @@
+@import '~@angular/material/theming';
+
+.btn-hero-primary {
+  background-image: linear-gradient(to left, mat-color($acn-green, 400), mat-color($acn-green, 800));
+  &[disabled] {
+    background-image: none;
+  }
+}
+
+.fab-container {
+  top: auto;
+  right: 1rem;
+  bottom: 1rem;
+  left: auto;
+  position: fixed;
+}

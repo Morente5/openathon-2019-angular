@@ -1,41 +1,41 @@
-import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
+import {  ActivatedRoute } from '@angular/router';
+
+import { EventsStoreFacadeService } from '../store/services/events-store-facade.service';
+import * as EventsActions from '../store/actions/events.actions';
 
 import { Event } from '../model/event';
-import { EventService } from '../services/event.service';
 
-import { fadeInTop } from 'src/app/shared/animations/animations';
+import { fadeInBottom } from '../../shared/animations/animations';
+import { AuthStoreFacadeService } from 'src/app/store/services/auth-store-facade.service';
+
 
 @Component({
   selector: 'oevents-event-details',
   templateUrl: './event-details.component.html',
   styleUrls: ['./event-details.component.scss'],
-  animations: [fadeInTop],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [fadeInBottom],
 })
 export class EventDetailsComponent implements OnInit {
 
-  event: Event;
+  public auth$ = this.authFacade.user$;
+  public event$;
 
   constructor(
     private route: ActivatedRoute,
-    private eventService: EventService,
-    private router: Router,
+    private eventsFacade: EventsStoreFacadeService,
+    private authFacade: AuthStoreFacadeService,
   ) { }
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
-    this.eventService.getEvent(id).subscribe((event: Event) => {
-      console.log(event);
-      this.event = event;
-    });
+    const selectedEventId = this.route.snapshot.paramMap.get('id');
+    this.event$ = this.eventsFacade.selectEvent$(selectedEventId);
+    this.eventsFacade.dispatch(EventsActions.GET_EVENT_DETAIL({ selectedEventId }));
   }
 
   deleteEvent(event: Event) {
-    console.log(event);
-    this.eventService.deleteEvent(event.id).subscribe(() => {
-      console.log('Event Removed');
-      this.router.navigate(['/events']);
-    });
+    this.eventsFacade.dispatch(EventsActions.DELETE_EVENT({ selectedEventId: event.id }));
   }
 
 }

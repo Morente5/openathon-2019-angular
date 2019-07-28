@@ -4,6 +4,7 @@ import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 
 import { AuthService } from './services/auth.service';
+import { AuthStoreFacadeService } from '../store/services/auth-store-facade.service';
 
 import { LayoutModule } from './layout/layout.module';
 
@@ -32,6 +33,7 @@ export class CoreModule {
       ngModule: CoreModule,
       providers: [
         AuthService,
+        AuthStoreFacadeService,
       ],
     };
   }

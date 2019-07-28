@@ -1,17 +1,16 @@
-import { Component, ChangeDetectionStrategy, OnDestroy } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { fadeInTop } from '../../shared/animations/animations';
+import { fadeInBottom } from '../../shared/animations/animations';
 
+import { AuthStoreFacadeService } from 'src/app/store/services/auth-store-facade.service';
 import * as AuthActions from '../../store/actions/auth.actions';
-import { Store } from '@ngrx/store';
-import { AppState } from 'src/app/store/app.state';
 
 @Component({
   selector: 'oevents-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [fadeInTop],
+  animations: [fadeInBottom],
 })
 export class SignupComponent {
 
@@ -22,11 +21,11 @@ export class SignupComponent {
 
   constructor(
     private fb: FormBuilder,
-    private readonly store: Store<AppState>
+    private readonly authFacade: AuthStoreFacadeService,
   ) { }
 
   onSubmit() {
-    this.store.dispatch(AuthActions.SIGN_UP({ credentials: this.signupForm.value }));
+    this.authFacade.dispatch(AuthActions.SIGN_UP({ credentials: this.signupForm.value }));
   }
 
 }

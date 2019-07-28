@@ -1,0 +1,11 @@
+@import '~@angular/material/theming';
+
+.hero-primary {
+  background: linear-gradient(to left, mat-color($acn-green, 400), mat-color($acn-green, 900));
+  background-clip: text;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
+  text-shadow: none;
+}

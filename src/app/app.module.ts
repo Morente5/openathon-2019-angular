@@ -10,7 +10,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { StoreModule } from '@ngrx/store';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
-import { reducers, metaReducers } from './store/app.state';
+import { reducers } from './store/app.state';
 import { EffectsModule } from '@ngrx/effects';
 import { AuthEffects } from './store/effects/auth.effects';
 
@@ -24,10 +24,10 @@ import { environment } from '../environments/environment';
 @NgModule({
   imports: [
     BrowserModule,
-    CoreModule,
+    CoreModule.forRoot(),
     BrowserAnimationsModule,
     AppRoutingModule,
-    StoreModule.forRoot(reducers, { metaReducers }),
+    StoreModule.forRoot(reducers),
     StoreRouterConnectingModule.forRoot(),
     EffectsModule.forRoot([AuthEffects]),
     !environment.production ? StoreDevtoolsModule.instrument() : [],

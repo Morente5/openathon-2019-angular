@@ -1,10 +1,9 @@
 /* You can add global styles to this file, and also import other style files */
-
-@import 'https://fonts.googleapis.com/icon?family=Material+Icons';
+@import 'https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined';
 
 @import './app/shared/styles/variables';
-@import './app/shared/styles/theme';
 
+@import './app/shared/styles/theme';
 
 /* Reset */
 html, body {

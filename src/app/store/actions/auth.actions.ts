@@ -1,7 +1,7 @@
-import { Credentials } from '../../models/user';
+import { Credentials } from '../../model/user';
 import { createAction, props } from '@ngrx/store';
 
-import { User } from 'src/app/models/user';
+import { User } from 'src/app/model/user';
 
 export const LOG_IN = createAction(
   '[Auth] Log In',

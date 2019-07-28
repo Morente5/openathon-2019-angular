@@ -1,21 +1,44 @@
-.container {
+@import 'src/app/shared/styles/variables';
+@import '~bootstrap/scss/mixins';
+
+.events-container {
+  @include make-row;
+  .event {
+    @include make-col-ready;
+
+    @include media-breakpoint-up(md) {
+      @include make-col(6);
+    }
+    @include media-breakpoint-up(xl) {
+      @include make-col(4);
+    }
+    margin-bottom: 1rem;
+  }
+}
+
+.actions {
+  margin: 0;
   display: flex;
-  justify-content: center;
-  flex-flow: column;
-  margin: 10%;
-  margin-top: 2%;
+  justify-content: space-between;
 }
 
-#add-event-btn {
+.card-subtitle {
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 
-button {
-  max-width: 100px;
+.card-title {
+  font-size: 1.5rem;
+  line-height: 1.2;
+  margin-bottom: 1rem;
 }
 
-table {
-  width: 100%;
-  margin-top: 10px;
+.location, .date {
+  display: flex;
+  align-items: center;
+}
+
+.my-events-slide {
+  margin-bottom: 1rem;
+
 }

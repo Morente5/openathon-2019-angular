@@ -1,0 +1,7 @@
+@import 'variables';
+@import '~bootstrap/scss/mixins';
+
+.grid-container {
+  @include make-container;
+  @include make-container-max-widths;
+}

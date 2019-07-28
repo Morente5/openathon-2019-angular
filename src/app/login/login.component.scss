@@ -1,12 +1,40 @@
-.container {
+// @import '../shared/styles/colors';
+@import '../shared/styles/variables';
+
+.grid-container {
   display: flex;
   justify-content: center;
-  flex-direction: column;
-  align-items: center;
+  margin-top: 2rem;
+}
+
+h1 {
+  margin: 0 0 .8rem 0;
+  text-align: center;
+}
+
+.login-card {
+  width: 25rem;
 }
 
 .form-login {
   display: flex;
   flex-flow: column;
-  width: 40%;
+}
+
+.login-btn-container {
+
+  .login-btn {
+    width: 100%;
+  }
+
+  .signup {
+    margin-top: 1rem;
+    text-align: right;
+    font-size: 12px;
+    margin-bottom: 0.5rem;
+
+    a {
+      font-weight: 600;
+    }
+  }
 }

@@ -10,7 +10,7 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "lint:fix": "ng lint --fix",
-    "sonar": "sonar-scanner",
+    "sonar": "npm run test:coverage && sonar-scanner",
     "compodoc": "npx compodoc -p tsconfig.app.json"
   },
   "private": true,
@@ -30,6 +30,7 @@
     "@ngrx/router-store": "^8.1.0",
     "@ngrx/store": "^8.1.0",
     "@ngrx/store-devtools": "^8.1.0",
+    "bootstrap": "^4.3.1",
     "hammerjs": "^2.0.8",
     "rxjs": "~6.5.2",
     "tslib": "^1.10.0",

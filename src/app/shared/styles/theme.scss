@@ -1,11 +1,32 @@
 @import '~@angular/material/theming';
+@import 'colors';
+@import 'fonts';
+
 @include mat-core();
 
-$acn-primary: mat-palette($mat-grey, 900);
-$acn-accent:  mat-palette($mat-green, 500, 900, A100);
-$acn-warn:    mat-palette($mat-deep-orange);
-$acn-theme: mat-light-theme($acn-primary, $acn-accent, $acn-warn);
+$acn-app-primary: mat-palette($acn-green, 500);
+$acn-app-accent: mat-palette($acn-gray, A200, A100, A400);
 
-.acc-theme {
-  @include angular-material-theme($acn-theme);
+$acn-app-warn: mat-palette($mat-red);
+
+$acn-app-theme: mat-light-theme($acn-app-primary, $acn-app-accent, $acn-app-warn);
+
+$acn-typography: mat-typography-config(
+  $font-family: #{$acn-font},
+  $headline: mat-typography-level(32px, 48px, 700),
+  $body-1: mat-typography-level(16px, 24px, 500)
+);
+
+@include mat-core($acn-typography);
+
+
+@include angular-material-theme($acn-app-theme);
+
+body {
+  background-color: mat-color($acn-gray, 100);
 }
+
+@import 'layout';
+@import 'components/button';
+@import 'components/hero';
+@import 'components/material';

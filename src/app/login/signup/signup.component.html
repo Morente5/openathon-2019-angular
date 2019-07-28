@@ -1,19 +1,30 @@
-<div class="container">
-  <h2 @fadeInTop>Signup</h2>
-
-  <form class="form-signup" novalidate [formGroup]="signupForm" #fform="ngForm" (ngSubmit)="onSubmit()">
-    <mat-form-field>
-      <input matInput placeholder="Email" type="text" formControlName="email" />
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="Password" type="password" formControlName="password" />
-    </mat-form-field>
-
-    <div class="login-btn">
-      <div>Already have an account? <a routerLink="/login">Sign in</a></div>
-      <button mat-raised-button color="primary" type="submit">
-        Signup
-      </button>
+<div class="grid-container">
+  <mat-card class="signup-card" @fadeInBottom>
+    <div class="section-title">
+      <h1><span class="hero-primary">Sign up</span></h1>
     </div>
-  </form>
+
+    <div class="form">
+      <form class="form-signup" [formGroup]="signupForm" (ngSubmit)="onSubmit()">
+        <mat-form-field appearance="fill" hideRequiredMarker class="form-field">
+          <mat-label>Email</mat-label>
+          <input matInput required type="email" formControlName="email"/>
+          <mat-error *ngIf="signupForm.get('email').hasError('required')">This field is required</mat-error>
+          <mat-error *ngIf="signupForm.get('email').hasError('email')">Invalid format</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill" hideRequiredMarker class="form-field">
+          <mat-label>Password</mat-label>
+          <input matInput type="password" formControlName="password"/>
+          <mat-error *ngIf="signupForm.get('password').hasError('required')">This field is required</mat-error>
+        </mat-form-field>
+
+        <div class="login-btn-container">
+          <button mat-raised-button class="login-btn btn-hero-primary" color="primary" type="submit" [disabled]="signupForm.invalid">
+            Signup
+          </button>
+          <div class="login">Already have an account? <a routerLink="/login">Log in</a></div>
+        </div>
+      </form>
+    </div>
+  </mat-card>
 </div>

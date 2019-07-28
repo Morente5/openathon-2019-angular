@@ -1,14 +1,19 @@
-<div class="container">
-  <h1 @fadeInTop>User Profile</h1>
-  <div class="userData">
-    <div class="item">
-      <h4>ID: </h4>
-      <span> {{user.id}}</span>
+<div class="grid-container">
+  <mat-card class="profile-card" @fadeInBottom>
+    <div class="section-title">
+      <h1><span class="hero-primary">User Profile</span></h1>
     </div>
 
-    <div class="item">
-      <h4>Email: </h4>
-      <span> {{user.email}}</span>
+    <div class="user-data" *ngIf="user$ | async as user">
+      <div class="item">
+        <h4>ID: </h4>
+        <span> {{user.id}}</span>
+      </div>
+
+      <div class="item">
+        <h4>Email: </h4>
+        <span> {{user.email}}</span>
+      </div>
     </div>
-  </div>
+  </mat-card>
 </div>

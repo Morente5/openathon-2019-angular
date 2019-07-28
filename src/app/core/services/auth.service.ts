@@ -1,5 +1,4 @@
-import { AppState, selectAuthUser } from './../../store/app.state';
-import { Credentials } from './../../models/user';
+import { Credentials } from '../../model/user';
 import { Injectable } from '@angular/core';
 import {
   HttpClient,
@@ -8,36 +7,37 @@ import {
 } from '@angular/common/http';
 import { Observable, throwError, of } from 'rxjs';
 import { catchError, retry, tap, pluck, switchMap } from 'rxjs/operators';
-import { User } from '../../models/user';
+import { User } from '../../model/user';
 import { environment } from '../../../environments/environment';
 
-import { Store } from '@ngrx/store';
+import { AuthStoreFacadeService } from 'src/app/store/services/auth-store-facade.service';
 import * as AuthActions from '../../store/actions/auth.actions';
 
-@Injectable({
-  providedIn: 'root'
-})
+@Injectable()
 export class AuthService {
 
-  public user$ = this.store.select(selectAuthUser);
+  public user$ = this.authFacade.user$;
+
+  apiURL = environment.apiURL;
 
   private readonly headers = new HttpHeaders({
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
   });
 
   constructor(
     private readonly http: HttpClient,
-    private readonly store: Store<AppState>,
+    private readonly authFacade: AuthStoreFacadeService,
   ) {
-    const user = this.getUserFromLS();
-    if (user) {
-      this.store.dispatch(AuthActions.LOG_IN_SUCCESS_LS({ user }));
+    const userLS = this.getUserFromLS();
+    if (userLS) {
+      this.authFacade.dispatch(AuthActions.LOG_IN_SUCCESS_LS({ user: userLS }));
     }
   }
 
   login(user: Credentials): Observable<User> {
     return this.getUser(user);
   }
+
   signup(user: Credentials): Observable<User> {
     return this.getUser(user).pipe(
       switchMap(userWithSameEmail => {
@@ -52,7 +52,7 @@ export class AuthService {
 
   getUser(user: Credentials): Observable<User> {
     const headers = this.headers;
-    return this.http.get<User>(`${environment.apiURL}/users`, { headers, params: { email: user.email } }).pipe(
+    return this.http.get<User>(`${this.apiURL}/users`, { headers, params: { email: user.email } }).pipe(
       retry(3),
       pluck('0'),
     );
@@ -60,13 +60,13 @@ export class AuthService {
 
   postUser(user: Credentials): Observable<User> {
     const headers = this.headers;
-    return this.http.post<User>(`${environment.apiURL}/users`, user, { headers }).pipe(
+    return this.http.post<User>(`${this.apiURL}/users`, user, { headers }).pipe(
       retry(3),
     );
   }
 
   logout() {
-    this.store.dispatch(AuthActions.LOG_OUT());
+    this.authFacade.dispatch(AuthActions.LOG_OUT());
   }
 
   getUserFromLS(): User {

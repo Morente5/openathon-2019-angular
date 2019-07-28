@@ -1,11 +1,11 @@
-<mat-toolbar color="primary">
-  <a mat-button routerLink="/home" routerLinkActive="activeLink">Home</a>
-  <a mat-button routerLink="/events" routerLinkActive="activeLink">Events</a>
-  <a mat-button routerLink="/profile" routerLinkActive="activeLink">Profile</a>
+<mat-toolbar class="toolbar" color="accent">
+  <a mat-button routerLink="/home" routerLinkActive="hero-primary">Home</a>
+  <a mat-button routerLink="/events" routerLinkActive="hero-primary">Events</a>
+  <a mat-button routerLink="/profile" routerLinkActive="hero-primary">Profile</a>
   <ng-container class="course-detail" *ngIf="user$ | async as user; else loginButton">
-    <a mat-button (click)="logout()">{{user.email}} - Logout</a>
+    <a mat-button (click)="logout()" class="login">{{user.email}} - Logout</a>
   </ng-container>
   <ng-template #loginButton>
-    <a mat-button routerLink="/login" routerLinkActive="activeLink">Login</a>
+    <a mat-button routerLink="/login" routerLinkActive="hero-primary" class="login">Login</a>
   </ng-template>
 </mat-toolbar>

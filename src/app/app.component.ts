@@ -1,13 +1,8 @@
-import { Component } from '@angular/core';
-
-import { AuthService } from './core/services/auth.service';
-import { Store } from '@ngrx/store';
-import * as loginActions from './store/actions/auth.actions';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
 @Component({
   selector: 'oevents-root',
   templateUrl: './app.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent {
-  title = 'open-events-front';
-}
+export class AppComponent { }

@@ -1,27 +1,38 @@
-<div class="container">
-  <h1 @fadeInTop>Event Details</h1>
-  <div id="event-card-details">
-    <div id="edit-event-btn">
-      <button id="delete-btn" mat-raised-button color="warn" (click)="deleteEvent(event)" >
-        Delete Event
-      </button>
-      <button mat-raised-button color="primary" [routerLink]="['/addEditEvent/', event.id]" >
-        Edit Event
-      </button>
-    </div>
+<div class="grid-container" @fadeInBottom>
+  <div class="section-title">
+    <h1><span class="hero-primary">Event details</span></h1>
+  </div>
 
-    <mat-card *ngIf="event">
-      <mat-card-header>
-        <mat-card-title>
-          <h3>{{ event.title | uppercase }}</h3>
-        </mat-card-title>
-        <mat-card-subtitle>
-          <p>{{ event.location }} - {{ event.date | date: "dd/MM/yyyy" }}</p>
+  <div class="event-card-details" *ngIf="event$ | async as event">
+    <mat-card class="event-card">
+      <img mat-card-image class="card-image" src="{{ event.imageUrl }}" alt="{{ event.title }}">
+      <mat-card-content class="card-content">
+        <mat-card-subtitle class="card-subtitle">
+          <span class="location"><mat-icon>location_on</mat-icon> {{ event.location }}</span>
+          <span class="date"><mat-icon>today</mat-icon> {{ event.date | date }}</span>
         </mat-card-subtitle>
-      </mat-card-header>
-
-      <mat-card-content>
+        <mat-card-title class="card-title">{{ event.title }}</mat-card-title>
         <p>{{ event.description }}</p>
+        <div class="actions">
+          <button
+            class="delete-btn"
+            mat-raised-button
+            color="warn"
+            [disabled]="(auth$ | async) === null"
+            (click)="deleteEvent(event)"
+          >
+            Delete Event
+          </button>
+          <button
+            mat-raised-button
+            color="primary"
+            class="btn-hero-primary"
+            [disabled]="(auth$ | async) === null"
+            [routerLink]="['edit']"
+          >
+            Edit Event
+          </button>
+        </div>
       </mat-card-content>
     </mat-card>
   </div>

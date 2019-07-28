@@ -1,38 +1,38 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { Event } from '../model/event';
 
-import { EventService } from '../services/event.service';
+import { AuthStoreFacadeService } from 'src/app/store/services/auth-store-facade.service';
+import { EventsStoreFacadeService } from '../store/services/events-store-facade.service';
+import * as EventsActions from '../store/actions/events.actions';
 
-import { fadeInTop } from 'src/app/shared/animations/animations';
+import { fadeInBottom } from './../../shared/animations/animations';
 
 @Component({
   selector: 'oevents-event-list',
   templateUrl: './event-list.component.html',
   styleUrls: ['./event-list.component.scss'],
-  animations: [fadeInTop],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [fadeInBottom],
 })
 export class EventListComponent implements OnInit {
 
-  events: Event[];
-  selectedEvent: Event;
+  public auth$ = this.authFacade.user$;
+  public events$ = this.eventsFacade.events$;
+  public myEvents$ = this.eventsFacade.myEvents$;
 
-  displayedColumns: string[] = ['Date', 'Location', 'Title'];
+  public seeMyEvents: boolean;
 
-  constructor(private eventService: EventService) { }
+  constructor(
+    private authFacade: AuthStoreFacadeService,
+    private eventsFacade: EventsStoreFacadeService,
+  ) { }
 
   ngOnInit() {
-    this.getEvents();
+    this.eventsFacade.dispatch(EventsActions.GET_EVENTS());
   }
 
-  onSelectEvent(event: Event) {
-    this.selectedEvent = event;
-  }
-
-  getEvents() {
-    this.eventService.getEvents().subscribe((events: Event[]) => {
-      this.events = events;
-      this.selectedEvent = events[0];
-    });
+  byId(event: Event) {
+    return event.id;
   }
 
 }

@@ -1,14 +1,21 @@
-.container {
+.grid-container {
   display: flex;
   justify-content: center;
-  flex-direction: column;
-  align-items: center;
+  margin-top: 2rem;
 }
 
-form {
+h1 {
+  margin: 0 0 0.8rem 0;
+  text-align: center;
+}
+
+.add-edit-event-card {
+  width: 50rem;
+}
+
+.form-add-edit {
   display: flex;
   flex-flow: column;
-  width: 40%;
 }
 
 #save-btn {

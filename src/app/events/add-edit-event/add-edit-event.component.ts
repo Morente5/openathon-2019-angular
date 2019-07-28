@@ -1,26 +1,35 @@
-import { Component, OnInit } from '@angular/core';
+import { AuthService } from './../../core/services/auth.service';
+import { AuthStoreFacadeService } from 'src/app/store/services/auth-store-facade.service';
+import { Component, OnInit, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 
+import { EventsStoreFacadeService } from '../store/services/events-store-facade.service';
+import * as EventsActions from '../store/actions/events.actions';
 import { Event } from '../model/event';
-import { EventService } from '../services/event.service';
+// import { EventService } from '../services/event.service';
 
-import { fadeInTop } from '../../shared/animations/animations';
+import { fadeInBottom } from '../../shared/animations/animations';
+import { EventService } from '../services/event.service';
 
 @Component({
   selector: 'oevents-add-edit-event',
   templateUrl: './add-edit-event.component.html',
   styleUrls: ['./add-edit-event.component.scss'],
-  animations: [fadeInTop],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [fadeInBottom],
 })
 export class AddEditEventComponent implements OnInit {
 
-  addEditForm: FormGroup = this.fb.group({
+  public edit: boolean;
+
+  public readonly addEditForm: FormGroup = this.fb.group({
     title: ['', Validators.required],
     location: ['', [Validators.required, Validators.minLength(2), Validators.maxLength(25)]],
     date: ['', Validators.required],
     description: ['', [Validators.required, Validators.minLength(10), Validators.maxLength(400)]],
     addedBy: [''],
+    imageUrl: [''],
     id: [''],
   });
 
@@ -46,22 +55,20 @@ export class AddEditEventComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private eventService: EventService,
-    private router: Router,
+    private eventsFacade: EventsStoreFacadeService,
     private route: ActivatedRoute,
   ) { }
 
   ngOnInit() {
-    const id = this.route.snapshot.paramMap.get('id');
+    this.edit = this.route.snapshot.paramMap.has('id');
 
-    if (id) {
+    if (this.edit) {
+      // EDIT
+      const id = this.route.snapshot.paramMap.get('id');
       this.eventService.getEvent(id).subscribe((event: Event) => {
-        this.fillForm(event);
+        this.addEditForm.setValue(event);
       });
     }
-  }
-
-  fillForm(event: Event) {
-    this.addEditForm.patchValue(event);
   }
 
   errors(controlName): string[] {
@@ -71,15 +78,8 @@ export class AddEditEventComponent implements OnInit {
 
   onSubmit() {
     const currentEvent = this.addEditForm.value;
-
-    const action = currentEvent.id ?
-      this.eventService.updateEvent(currentEvent) :
-      this.eventService.addEvent(currentEvent);
-
-    action.subscribe((event: Event) => {
-      console.log(event);
-      this.addEditForm.reset();
-      this.router.navigate(['/events']);
-    });
+    this.edit ?
+      this.eventsFacade.dispatch(EventsActions.EDIT_EVENT({ event: currentEvent })) :
+      this.eventsFacade.dispatch(EventsActions.CREATE_EVENT({ event: currentEvent }));
   }
 }

@@ -82,10 +82,10 @@ export class AuthEffects {
 
 
   constructor(
-    private actions$: Actions,
-    private authService: AuthService,
-    private router: Router,
-    private snackBar: MatSnackBar,
+    private readonly actions$: Actions,
+    private readonly router: Router,
+    private readonly authService: AuthService,
+    private readonly snackBar: MatSnackBar,
   ) {}
 
 }

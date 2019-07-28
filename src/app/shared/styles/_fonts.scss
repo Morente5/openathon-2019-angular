@@ -1,3 +1,4 @@
+@import '~@angular/material/theming';
 @import 'mixins';
 
 @include font-face('Graphik', '/assets/fonts/graphik/Graphik-Thin', 100, normal);
@@ -10,3 +11,8 @@
 @include font-face('Graphik', '/assets/fonts/graphik/Graphik-Black', 900, normal);
 @include font-face('Graphik', '/assets/fonts/graphik/Graphik-RegularItalic', normal, italic);
 @include font-face('Graphik Super', '/assets/fonts/graphik/Graphik-Super', 900, normal);
+
+/*********** Fonts **************/
+
+$font-size: 1rem;
+$acn-font: "Graphik", "Helvetica Neue","Verdana", "Helvetica", "Arial", "sans-serif";

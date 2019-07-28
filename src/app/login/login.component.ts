@@ -1,18 +1,16 @@
-import { OnDestroy } from '@angular/core';
 import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
-import { fadeInTop } from '../shared/animations/animations';
+import { fadeInBottom } from '../shared/animations/animations';
 
+import { AuthStoreFacadeService } from '../store/services/auth-store-facade.service';
 import * as AuthActions from '../store/actions/auth.actions';
-import { Store } from '@ngrx/store';
-import { AppState } from '../store/app.state';
 
 @Component({
   selector: 'oevents-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  animations: [fadeInTop],
+  animations: [fadeInBottom],
 })
 export class LoginComponent {
 
@@ -23,11 +21,11 @@ export class LoginComponent {
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly store: Store<AppState>
+    private readonly authFacade: AuthStoreFacadeService,
   ) { }
 
   onSubmit() {
-    this.store.dispatch(AuthActions.LOG_IN({ credentials: this.loginForm.value }));
+    this.authFacade.dispatch(AuthActions.LOG_IN({ credentials: this.loginForm.value }));
   }
 
 }

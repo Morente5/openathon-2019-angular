@@ -1,20 +1,52 @@
-.container {
+@import 'src/app/shared/styles/variables';
+@import '~bootstrap/scss/mixins';
+
+.grid-container {
   display: flex;
   justify-content: center;
   flex-direction: column;
   align-items: center;
 }
 
-#event-card-details {
-  display: flex;
-  flex: 1;
-  flex-flow: column;
-  margin: 2%;
-  max-width: 800px;
+@include media-breakpoint-up(md) {
+  .event-card {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .card-image:first-child {
+    flex: 1 0 50%;
+    max-width: 50%;
+    object-fit: cover;
+    margin: -1rem 1rem -1rem -1rem;
+    border-top-left-radius: inherit;
+    border-bottom-left-radius: inherit;
+    border-top-right-radius: 0;
+    border-bottom-right-radius: 0;
+  }
 }
 
-#edit-event-btn {
+.event-card-details, .card-content {
+  width: 100%;
+}
+
+.actions {
   display: flex;
-  justify-content: flex-end;
-  margin-bottom: 15px;
+  justify-content: space-between;
+}
+
+.card-subtitle {
+  display: flex;
+  justify-content: space-between;
+}
+
+.card-title {
+  font-size: 1.5rem;
+  line-height: 1.2;
+  margin-bottom: 1rem;
+}
+
+.location, .date {
+  display: flex;
+  align-items: center;
 }

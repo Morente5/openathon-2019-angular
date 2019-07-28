@@ -1,6 +1,21 @@
+import { ToolbarComponent } from './toolbar/toolbar.component';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { LayoutComponent } from './layout.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { of } from 'rxjs';
+import { AuthService } from 'src/app/core/services/auth.service';
+
+
+const authServiceStub = {
+  user$: of({
+    id: '1',
+    email: 'email',
+    password: 'pass',
+  }),
+};
+
 
 describe('LayoutComponent', () => {
   let component: LayoutComponent;
@@ -8,7 +23,17 @@ describe('LayoutComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LayoutComponent ]
+      imports: [
+        RouterTestingModule,
+        MatToolbarModule,
+      ],
+      declarations: [
+        LayoutComponent,
+        ToolbarComponent,
+      ],
+      providers: [
+        { provide: AuthService, useValue: authServiceStub },
+      ],
     })
     .compileComponents();
   }));

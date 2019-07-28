@@ -1,11 +1,7 @@
 import {
-  ActionReducer,
   ActionReducerMap,
-  createFeatureSelector,
   createSelector,
-  MetaReducer
 } from '@ngrx/store';
-import { environment } from '../../environments/environment';
 
 import { AuthState, authReducer } from './reducers/auth.reducer';
 import { routerReducer, RouterReducerState } from '@ngrx/router-store';
@@ -19,8 +15,6 @@ export const reducers: ActionReducerMap<AppState> = {
   auth: authReducer,
   router: routerReducer,
 };
-
-export const metaReducers: MetaReducer<AppState>[] = !environment.production ? [] : [];
 
 export const selectAuth = (state: AppState) => state.auth;
 

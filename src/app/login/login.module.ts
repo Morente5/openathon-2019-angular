@@ -6,6 +6,7 @@ import { LoginRoutingModule } from './login-routing.module';
 
 // NgRx
 import { StoreModule } from '@ngrx/store';
+import { AuthStoreFacadeService } from '../store/services/auth-store-facade.service';
 
 // Components
 import { LoginComponent } from './login.component';
@@ -21,5 +22,8 @@ import { SignupComponent } from './signup/signup.component';
     LoginComponent,
     SignupComponent,
   ],
+  providers: [
+    AuthStoreFacadeService,
+  ]
 })
 export class LoginModule { }

@@ -1,61 +1,72 @@
-<div class="container">
-  <h1 @fadeInTop>Add Event</h1>
-  <form
-    novalidate
-    [formGroup]="addEditForm"
-    (ngSubmit)="onSubmit()"
-    *ngIf="addEditForm"
-  >
-    <mat-form-field>
-      <input matInput placeholder="Title" type="text" formControlName="title" />
-      <mat-error
-        *ngIf="addEditForm.get('title').dirty && addEditForm.get('title').hasError('required')"
-      >{{validationMessages.title['required']}}</mat-error>
-    </mat-form-field>
-    <mat-form-field>
-      <input matInput placeholder="Date" type="date" formControlName="date" />
-      <mat-error
-        *ngIf="addEditForm.get('date').dirty && addEditForm.get('date').hasError('required')"
-      >{{validationMessages.date['required']}}</mat-error>
-    </mat-form-field>
-    <mat-form-field>
-      <input
-        matInput
-        placeholder="Location"
-        type="text"
-        formControlName="location"
-      />
-      <ng-container *ngFor="let errorName of errors('location')">
-        <mat-error
-          *ngIf="addEditForm.get('location').dirty"
-        >{{validationMessages.location[errorName]}}</mat-error>
-      </ng-container>
-
-    </mat-form-field>
-
-    <mat-form-field>
-      <textarea
-        matInput
-        placeholder="Description"
-        rows="4"
-        type="text"
-        formControlName="description"
-      ></textarea>
-      <ng-container
-        *ngFor="let errorName of errors('description')"
-      >
-        <mat-error
-          *ngIf="addEditForm.get('description').dirty"
-        >{{validationMessages.description[errorName]}}</mat-error>
-      </ng-container>
-    </mat-form-field>
-
-    <div id="save-btn">
-      <button mat-raised-button color="primary" type="submit"
-        [disabled]="addEditForm.invalid"
-      >
-        Save
-      </button>
+<div class="grid-container">
+  <mat-card class="add-edit-event-card" @fadeInBottom>
+    <div class="section-title">
+      <h1>
+        <span class="hero-primary" *ngIf="!edit">Add Event</span>
+        <span class="hero-primary" *ngIf="edit">Edit Event</span>
+      </h1>
     </div>
-  </form>
+    <div class="form">
+
+      <form
+        class="form-add-edit"
+        [formGroup]="addEditForm"
+        (ngSubmit)="onSubmit()"
+      >
+        <mat-form-field appearance="fill" hideRequiredMarker class="form-field">
+          <mat-label>Title</mat-label>
+          <input matInput type="text" formControlName="title"/>
+          <mat-error
+            *ngIf="addEditForm.get('title').hasError('required')"
+          >{{validationMessages.title['required']}}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill" hideRequiredMarker class="form-field">
+          <mat-label>Date</mat-label>
+          <input matInput type="date" formControlName="date" />
+          <mat-icon matSuffix>today</mat-icon>
+          <mat-error
+            *ngIf="addEditForm.get('date').hasError('required')"
+          >{{validationMessages.date['required']}}</mat-error>
+        </mat-form-field>
+        <mat-form-field appearance="fill" hideRequiredMarker class="form-field">
+          <mat-label>Location</mat-label>
+          <input
+            matInput
+            type="text"
+            formControlName="location"
+          />
+          <mat-icon matSuffix>location_on</mat-icon>
+          <mat-error *ngFor="let errorName of errors('location')">
+            <span *ngIf="addEditForm.get('location').hasError(errorName)">
+              {{validationMessages.location[errorName]}}
+            </span>
+          </mat-error>
+
+        </mat-form-field>
+
+        <mat-form-field appearance="fill" hideRequiredMarker class="form-field">
+          <mat-label>Description</mat-label>
+          <textarea
+            matInput
+            rows="4"
+            type="text"
+            formControlName="description"
+          ></textarea>
+          <mat-error *ngFor="let errorName of errors('description')">
+            <span *ngIf="addEditForm.get('description').hasError(errorName)">
+              {{validationMessages.description[errorName]}}
+            </span>
+          </mat-error>
+        </mat-form-field>
+
+        <div id="save-btn">
+          <button mat-raised-button color="primary" type="submit" class="btn-hero-primary"
+            [disabled]="addEditForm.invalid"
+          >
+            Save
+          </button>
+        </div>
+      </form>
+    </div>
+  </mat-card>
 </div>

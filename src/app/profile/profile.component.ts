@@ -1,26 +1,21 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 
-import { User } from '../models/user';
+import { AuthStoreFacadeService } from '../store/services/auth-store-facade.service';
 
-import { fadeInTop } from '../shared/animations/animations';
+import { fadeInBottom } from '../shared/animations/animations';
 
 @Component({
   selector: 'oevents-profile',
   templateUrl: './profile.component.html',
   styleUrls: ['./profile.component.scss'],
-  animations: [fadeInTop],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  animations: [fadeInBottom],
 })
-export class ProfileComponent implements OnInit {
-  user: User;
+export class ProfileComponent {
+  public user$ = this.authFacade.user$;
 
-  constructor() { }
-
-  ngOnInit() {
-    this.getUser();
-  }
-
-  getUser() {
-    this.user = JSON.parse(localStorage.getItem('user'));
-  }
+  constructor(
+    private readonly authFacade: AuthStoreFacadeService,
+  ) { }
 
 }
